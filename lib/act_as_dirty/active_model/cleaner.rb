@@ -34,6 +34,7 @@ module ActAsDirty
       
       def generate_message record, attribute
         changes = record.read_changes_for_cleaning(attribute)
+        changes = format_values(changes) if @options[:using]
         if record.new_record?
           if @options[:create]
             message = @options[:create].call(record)
@@ -46,6 +47,13 @@ module ActAsDirty
           message = "Updated #{record.class.to_s} #{attribute.to_s.humanize} from #{changes[0]} to #{changes[1]}"
         end
         message
+      end
+      
+      def format_values changes
+        if @options[:using] and @options[:using].is_a? Array
+          changes = [@options[:using][changes[0]], @options[:using][changes[1]]]          
+        end
+        changes
       end
       
     end    
