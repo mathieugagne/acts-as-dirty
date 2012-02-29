@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = ActAsDirty::VERSION
   s.authors     = ["Mathieu Gagne"]
   s.email       = ["mathieu@orangebrule.com"]
-  s.homepage    = "http://github.com/orangebrule/act_as_dirty"
+  s.homepage    = "http://github.com/orangebrule/act-as-dirty"
   s.summary     = %q{Create a message of all changes made to a record each time it saves using ActiveModel::Dirty. }
   s.description = %q{Keep a log of what every user does on your system. Very useful in CRM, it would allow you to easily keep track of what every user has done to the record.}
 
