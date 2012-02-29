@@ -34,7 +34,7 @@ module ActAsDirty
       
       def generate_message record, attribute
         changes = record.read_changes_for_cleaning(attribute)
-        changes = format_values(changes) if @options[:using]
+        changes = format_values(changes, record.class.columns_hash[attribute.to_s].type) if @options[:using]
         if record.new_record?
           if @options[:create]
             message = @options[:create].call(record)
@@ -49,9 +49,15 @@ module ActAsDirty
         message
       end
       
-      def format_values changes
+      def format_values changes, type
         if @options[:using] and @options[:using].is_a? Array
-          changes = [@options[:using][changes[0]], @options[:using][changes[1]]]          
+          if type == :boolean
+            changes[0] = changes[0] ? @options[:using][0] : @options[:using][1] if changes[0]
+            changes[1] = changes[1] ? @options[:using][0] : @options[:using][1] if changes[1]
+          else
+            changes[0] = @options[:using][changes[0]] if changes[0]
+            changes[1] = @options[:using][changes[1]] if changes[1]
+          end      
         end
         changes
       end
