@@ -43,6 +43,8 @@ module ActAsDirty
           end
         elsif @options[:update]
           message = @options[:update].call(record)
+        elsif changes[0].nil?
+          message = "Updated #{record.class.to_s} #{attribute.to_s.humanize} to #{changes[1]}"
         else
           message = "Updated #{record.class.to_s} #{attribute.to_s.humanize} from #{changes[0]} to #{changes[1]}"
         end
