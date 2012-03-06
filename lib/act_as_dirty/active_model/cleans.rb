@@ -29,8 +29,9 @@ module ActAsDirty
           attributes = self.attribute_names.map(&:to_sym) if attributes.include? :all
           defaults.merge!(:attributes => attributes)
           
-          attributes.each do |attr, options|
-            raise ArgumentError, "The attribute '#{attr}' doesn't correspond to a column in the database" unless self.columns_hash[attr.to_s]            
+          attributes.each do |attr, options|           
+            # Fails when db not up to date with code
+            # raise ArgumentError, "The attribute '#{attr}' doesn't correspond to a column in the database" unless self.columns_hash[attr.to_s]            
             cleans_with(ActAsDirty::ActiveModel::Cleaner, defaults)
           end
         end
